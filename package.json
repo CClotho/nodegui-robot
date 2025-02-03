@@ -1,0 +1,22 @@
+{
+  "name": "nodegui-robot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "qode --force-node-api-uncaught-exceptions-policy=true index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@nodegui/nodegui": "^0.70.0",
+    "global-mouse-events": "^1.2.0",
+    "koffi": "^2.9.2",
+    "node-global-key-listener": "^0.990",
+    "node-gyp-build": "^4.8.4",
+    "node-window-manager": "^2.2.4",
+    "robotjs": "^0.6.0"
+  }
+}

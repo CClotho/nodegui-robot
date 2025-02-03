@@ -1,0 +1,11 @@
+exports.CONSTANTS = {
+    MAX_COLUMN: 6,
+    MAX_ITEMS: 30,
+    MAX_QUANTITY: 999 | "999",
+    ITEM_CATEGORY: "MATERIAL" | "ITEM"
+}
+
+
+exports.CRAFT_CONSTANTS = {
+    MAX_CRAFTED_ITEMS : 99 || 100,
+}
