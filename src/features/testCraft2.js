@@ -34,7 +34,7 @@ function autoCraftLevelling3(
     let isSelling = false;
     let startCrafting = false;
     let batchSetupCompleted = false;
-  
+   let disabled = false
 
     if ((event.name === "3" || event.vKey === 51) && event.state === "DOWN") {
         startCrafting = !startCrafting;
@@ -55,7 +55,7 @@ function autoCraftLevelling3(
                     console.log("Switching to selling mode...");
                   
                     robot.keyTap("enter");
-                    if (currentWinIndex <= currentWin.length - 1 && isSelling) {
+                    if (disabled && currentWinIndex <= currentWin.length - 1 && isSelling) {
                         // Bring the current window to the foreground
                         currentWin[currentWinIndex].bringToTop();
                 

@@ -33,7 +33,7 @@ function autoDisassembling(
    if((event.name === "2" || event.vKey === 50) && event.state === "DOWN") {
 
         startDisassembling = !startDisassembling;
-
+        robot.setMouseDelay(100);
         if(startDisassembling) {
           
             Start_DA = setInterval(()=> {
@@ -44,6 +44,9 @@ function autoDisassembling(
                         robot.moveMouse(tradeBtnPos.x, tradeBtnPos.y);
                         robot.mouseClick();
                         console.log(`Bought the items!`);
+                        robot.moveMouse(tradeBtnPos.x, tradeBtnPos.y);
+                        robot.mouseClick();
+                        robot.keyTap('enter')
                     }
                         
                     if(itemCategory === "MATERIAL" && quantity > 0) {
@@ -76,7 +79,7 @@ function autoDisassembling(
                           InventoryYPos += 45; // Move Y down to the next row
                         }
             
-                        robot.setMouseDelay(100);
+                        
                         robot.moveMouse(InventoryXPos, InventoryYPos);
                         console.log(
                           `Disassembling item at position: (${InventoryXPos}, ${InventoryYPos})`

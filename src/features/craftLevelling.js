@@ -53,14 +53,14 @@ function autoCraftLevelling(
     let craftedItems =0;
 
     if((event.name === "3" || event.vKey === 50 ) && event.state === "DOWN") {
-
+        robot.setMouseDelay(100);
         startCrafting = !startCrafting;
 
 
         if(startCrafting) {
             start_Craft = setInterval(()=> {
                 // currentCraftedItems !== TotalItemsToCraft
-                  robot.setMouseDelay(100);
+                  
 
                 
                 
@@ -73,14 +73,14 @@ function autoCraftLevelling(
                         robot.mouseClick();
                         robot.moveMouse(materialPos.MAT_ONE.x, materialPos.MAT_ONE.y);
                         robot.mouseToggle("down", "left");
-                        robot.moveMouse(CraftTablePos.x, CraftTablePos.y);
+                        robot.moveMouse(1040, 776),// robot.moveMouse(CraftTablePos.x, CraftTablePos.y);
                         robot.mouseToggle("up", "left");
     
                         robot.moveMouse(materialPos.MAT_TWO.x, materialPos.MAT_TWO.y);
                         robot.mouseToggle("down", "left");
-                        robot.moveMouse(CraftTablePos.x, CraftTablePos.y);
+                        robot.moveMouse(1039, 776),//robot.moveMouse(CraftTablePos.x, CraftTablePos.y);
                         robot.mouseToggle("up", "left");
-                        robot.moveMouse( 1422, 403) // Equip Btn
+                        robot.moveMouse( 1395, 375) // Equip Btn
                         robot.mouseClick();
                         robot.moveMouse(AmountBtnPos.x, AmountBtnPos.y);
                         robot.mouseClick();
@@ -89,6 +89,7 @@ function autoCraftLevelling(
                         robot.keyTap("enter");
     
                         robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
+                        robot.moveMouse(SuccessBtnPos.x, SuccessBtnPos.y)
                         robot.mouseClick();
 
                                                 

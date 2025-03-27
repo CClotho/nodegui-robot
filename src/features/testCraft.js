@@ -91,7 +91,7 @@ function moveToNextClient() {
     }
 }
 
-function autoCraftLevelling3 () {
+function autoCraftLevelling3 (event) {
     if ((event.name === "3" || event.vKey === 51) && event.state === "DOWN") {
         startCrafting = !startCrafting;
     
