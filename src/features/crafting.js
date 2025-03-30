@@ -1,6 +1,15 @@
 const robot = require('robotjs')
 const MODE = {CRAFTING_MODE: false, SELLING_MODE: false, REFILLING_MODE: false}
 
+let startCraft;
+let currentCraftedItems = 0;
+let totalCraftedItems = 0;
+let soldItems = 0;
+let totalCurrentMatIndex = 0;
+let currentMatIndex = 0;
+let initialSetup = true; // THIS WILL JUST RUN ONCE
+
+
 function delayUsingPerformanceNow(milliseconds) {
     const start = performance.now();
     while (performance.now() - start < milliseconds) {
@@ -26,13 +35,6 @@ function CraftingBot(
     TotalItemsToCraft
 )  {
     let startCrafting = false;
-    let startCraft;
-    let currentCraftedItems = 0;
-    let totalCraftedItems = 0;
-    let soldItems = 0;
-    let totalCurrentMatIndex = 0;
-    let currentMatIndex = 0;
-    let initialSetup = true; // THIS WILL JUST RUN ONCE
 
      let materialPos = {x: craftMaterialPos.x, y: craftMaterialPos.y}
     if(event.name === "3" || event.vKey === 51 && event.state === "DOWN") {
@@ -41,7 +43,41 @@ function CraftingBot(
         if(startCrafting) {
             // calling this function for every second
             startCraft = setInterval(() => {
-            if(MODE.REFILLING_MODE && totalCraftedItems >= 0 && totalCraftedItems == 99 || initialSetup) {
+
+            if(initialSetup) {
+
+                robot.moveMouse(MaterialBtnPos.x, MaterialBtnPos.y)
+                robot.mouseClick();
+                //Additng the first material
+                robot.moveMouse(materialPos.x, materialPos.y)
+                robot.mouseToggle("down", "left")
+                robot.moveMouse(craftingTablePos.x, craftingTablePos.y)
+                robot.mouseToggle("up", "left")
+                materialPos.x +=45
+                // Adding the second material
+                robot.moveMouse(materialPos.x, materialPos.y)
+                robot.mouseToggle("down", "left")
+                robot.moveMouse(craftingTablePos2.x, craftingTablePos2.y)
+                robot.mouseToggle("up", "left")
+                robot.moveMouse(equipBtnPos.x, equipBtnPos.y)
+                robot.mouseClick();
+                robot.moveMouse(AmountBtnPos.x, AmountBtnPos.y)
+                robot.mouseClick();
+                robot.typeString(quantity.toString()) // "999"
+                robot.keyTap("enter")
+                robot.mouseClick()
+                robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
+                robot.mouseClick();
+                robot.keyTap("enter")
+
+
+                currentMatIndex++;
+                initialSetup = false
+                MODE.CRAFTING_MODE = true
+                console.log("Switching to crafting mode...")
+
+            }
+            if(MODE.REFILLING_MODE && (totalCraftedItems == 99 || currentCraftedItems == 30)) {
                 
                 MODE.CRAFTING_MODE = false
                 MODE.SELLING_MODE = false
@@ -64,7 +100,8 @@ function CraftingBot(
 
 
 
-                robot.moveMouse(MaterialBtnPos.x, MaterialBtnPos)
+                robot.moveMouse(MaterialBtnPos.x, MaterialBtnPos.y)
+                robot.mouseClick();
                 //Additng the first material
                 robot.moveMouse(materialPos.x, materialPos.y)
                 robot.mouseToggle("down", "left")
@@ -77,13 +114,6 @@ function CraftingBot(
                 robot.mouseToggle("down", "left")
                 robot.moveMouse(craftingTablePos2.x, craftingTablePos2.y)
                 robot.mouseToggle("up", "left")
-                if(initialSetup) {
-                    robot.moveMouse(AmountBtnPos.x, AmountBtnPos.y)
-                    robot.typeString(quantity) // "999"
-                    robot.moveMouse(equipBtnPos.x, equipBtnPos.y)
-                    robot.mouseClick();
-                }
-                
                 robot.moveMouse(equipBtnPos.x, equipBtnPos.y)
                 robot.mouseClick();
                 robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
@@ -101,10 +131,10 @@ function CraftingBot(
                 // move the position of the 2 materials from the inventory +45px
                
                 currentMatIndex++;
-               
-                initialSetup = false
+                currentCraftedItems = 0
                 MODE.CRAFTING_MODE = true
                 MODE.REFILLING_MODE = false
+                console.log("Switching to crafting mode...")
 
                 
             }
@@ -119,33 +149,38 @@ function CraftingBot(
                     robot.keyTap("enter")
                 } */
 
-                if(currentCraftedItems > 0 && currentCraftedItems % 6 === 0) {
-
-                }
-
-                if(currentCraftedItems > 0 && currentCraftedItems % 30 === 0) {
-                    MODE.SELLING_MODE = true
-                }
-
-                if(currentCraftedItems > 0 && currentCraftedItems % 99 === 0) {
-                    MODE.REFILLING_MODE = true
-                }
-               
-               
-            
-                //robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
-                delayUsingPerformanceNow(2250)
+              
+                     //robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
+                //delayUsingPerformanceNow(2250)
+                delayUsingPerformanceNow(50)
                 robot.keyTap("enter")
                 robot.moveMouse(SuccessBtnPos.x, SuccessBtnPos.y)
                 robot.mouseClick()
                 
+            
 
+                if (currentCraftedItems === 30) {
+                    MODE.SELLING_MODE = true;
+                    MODE.CRAFTING_MODE = false;
+                    console.log("Switching to selling mode...");
+                }
+
+                if (totalCraftedItems === 99) {
+                    MODE.REFILLING_MODE = true;
+                    MODE.CRAFTING_MODE = false;
+                    console.log("Switching to refilling mode...");
+                }
                 totalCraftedItems++
                 currentCraftedItems++
                 console.log(`Current crafted items and total crafted items: ${currentCraftedItems} ${totalCraftedItems}`)
+               
+               
+               
+            
+               
             }
 
-            if(MODE.SELLING_MODE && currentCraftedItems == 30) {
+          /*   if(MODE.SELLING_MODE && currentCraftedItems == 30) {
                 robot.moveMouse(equipBtnPos.x, equipBtnPos.y)
                 robot.mouseClick()
                 if(soldItems > 0 && soldItems% 6 === 0) {
@@ -153,7 +188,7 @@ function CraftingBot(
                     itemPosY += 45;
                 }
 
-                if(soldItems > 0 && soldItems % 30 === 0) {
+                if(soldItems > 0 && soldItems == 30) {
 
 
                     // RESET BACK TO THE FIRST ITEM POSITION
@@ -173,12 +208,39 @@ function CraftingBot(
                 robot.mouseClick();
                 soldItems++;
 
-            }
+            } */
+
+                if (MODE.SELLING_MODE) {
+                    console.log("Switching to selling mode...");
+                    robot.moveMouse(equipBtnPos.x, equipBtnPos.y);
+                    robot.mouseClick();
+                
+                    // Simulate selling items
+                    for (let i = 0; i < 30; i++) {
+                        robot.moveMouse(ItemPos.x, ItemPos.y);
+                        robot.mouseToggle("down", "right");
+                        if(i > 0 && i % 6 === 0) {
+                            itemPosX = ItemPos.x;
+                            itemPosY += 45;
+                        }
+                        robot.moveMouse(ConfirmBtnPos.x, ConfirmBtnPos.y);
+                        robot.mouseClick();
+                        robot.moveMouse(TradeBtnPos.x, TradeBtnPos.y);
+                        robot.mouseClick();
+                    }
+                
+                    // Reset counters and mode
+                    currentCraftedItems = 0;
+                    soldItems = 0;
+                    MODE.SELLING_MODE = false;
+                    MODE.CRAFTING_MODE = true;
+                    console.log("Selling complete. Resuming crafting...");
+                }
          
            
             }, 100);
         }
-        else if(startCrafting == false){
+        else{
             clearInterval(startCraft)
             console.log("Stopping crafting...")
             startCrafting = false
