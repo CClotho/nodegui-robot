@@ -29,7 +29,7 @@ function autoCraftLevelling2(
 
     let itemPosX = ItemPos.x;
     let itemPosY = ItemPos.y;
-
+    let totalCraftedItems = 0
     let currentCraftedItems = 0;
     let craftedItems = 0;
     let currentIndex = 0;
@@ -90,8 +90,8 @@ function autoCraftLevelling2(
                     robot.keyTap("enter");
 
                     if (currentIndex > 0 && currentIndex % 6 === 0) {
-                        itemPosX = ItemPos.x;
-                        itemPosY += 45;
+                            itemPosX = ItemPos.x;
+                            itemPosY += 45;
                     }
 
                     if (currentIndex > 0 && currentIndex % 10 === 0) {

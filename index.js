@@ -8,6 +8,7 @@ const autoPurchaseItem = require("./src/features/Buy");
 const  Disassembling  = require("./src/features/Disassemble");
 const Craft = require('./src/features/craftLevelling');
 const testCraft = require('./src/features/testCraft2');
+const craft = require('./src/features/crafting');
 let arr = [];
 test2 = [];
 // user can choose to activate shortcut keys or manually clicking buttons
@@ -95,10 +96,13 @@ let typing;
 let pressCount = 0;
 
 
-getItemPos = { x: 1418, y: 438 } //: y:438
+
 getSellTabPos = { x: 846, y: 377 }
-const MaterialPos = {ONE: {x: 1414, y: 447,}, TWO: {x: 1450, y: 440}};//  {x: 1414, y: 447,}, TWO: {x: 1450, y: 440}
-const inventoryPos = { x: 1394, y: 417 };
+//const MaterialPos = {ONE: {x: 1414, y: 447,}, TWO: {x: 1450, y: 440}};//  {x: 1414, y: 447,}, TWO: {x: 1450, y: 440}
+
+
+let getItemPos = { x: 1418, y: 438 } //: y:438
+//const inventoryPos = { x: 1394, y: 417 };
 const DisassemblePos = {x:1038, y:712};
 const confirmBtnPos = {x: 881, y:602};
 const tradeBtnPos = {x:950, y:607};
@@ -108,12 +112,18 @@ const itemCategory = "ITEM";
 const totalOfItems = 30;
 const quantity = 0 ;
 const npcItemPos = {x: 571, y:383};
-let craftTablePos = { x: 696, y: 518};
-let craftBeginBtnPos = {x: 682, y: 725,};
-let AmountBtnPos ={x: 590, y: 723};
-const TotalItemsToCraft = 99;
-let materialBtnPos = {x: 1566, y: 407};
-let totalItemsToCraft = 990
+
+const craftMaterial = {x: 1380, y: 396};
+let craftTablePos1 =  {x: 1030, y: 773}
+let craftTablePos2 = {x: 1037, y: 833};
+const inventoryPos = { x: 1394, y: 417 };
+//let craftTablePos = { x: 696, y: 518};
+let craftBeginBtnPos = {x: 1016, y: 1013,};
+let AmountBtnPos ={x: 926, y: 1002};
+//const totalItemsToCraft = 99;
+let materialBtnPos = {x: 1518, y: 367};
+let equipBtnPos ={x:1393, y:359}
+let TotalItemsToCraft = 990
 function keyboardHandler(event, ItemPos, SellTabPos) { // rename this to selling items and buying one specific item
 
     if(event.name === "T" && event.state === "DOWN") {
@@ -270,17 +280,17 @@ async function pauseKeyboard(event) {
      // listeners and let each listeners handle their removeListener on their own button
      // e.g if (pause) { Show "The script is on pause" else if not start the execution}
      // else clear the interval
-     console.log(" Pause Keyboard Event 'Z' is clicked:", event)
+    //console.log(" Pause Keyboard Event 'Z' is clicked:", event)
      if(event.name === "Z" && event.state === "DOWN") {
         pauseKeyboardEvents = !pauseKeyboardEvents  // set state from true to false
         if(pauseKeyboardEvents) {
           
-        console.log("Keyboard listener value adding event listeners", pauseKeyboardEvents);
+       // console.log("Keyboard listener value adding event listeners", pauseKeyboardEvents);
         listener.removeListener(keyboardHandler); // creating another listener to keep it globally listening then remove some listener
         listener.removeListener(autoPurchaseItem);
         listener.removeListener(Disassembling);
         listener.removeListener(Disassembling.autoDisassembling2);
-        listener.removeListener(testCraft.autoCraftLevelling3);
+        listener.removeListener(craft.CraftingBot);
         console.log("Pausing keyboard listener using shortcut key z")
             
         }
@@ -319,20 +329,22 @@ async function pauseKeyboard(event) {
             })
 
             await listener.addListener((event) => {
-                testCraft.autoCraftLevelling3(
+                craft.CraftingBot(
                     event, 
-                    MaterialPos,
-                    craftTablePos,
+                    craftMaterial,
+                    craftTablePos1,
+                    craftTablePos2,
                     AmountBtnPos,
                     990,
                     craftBeginBtnPos,
                     successBtnPos,
-                    getItemPos,
+                    inventoryPos,
                     confirmBtnPos,
                     tradeBtnPos,
                     materialBtnPos,
-                    totalItemsToCraft,
-                    arr
+                    equipBtnPos,
+                    TotalItemsToCraft,
+                  
 
                 )
             })
@@ -392,20 +404,21 @@ startKeyboard.addEventListener("clicked", async(evt) => {
             })
 
             await listener.addListener((event) => {
-                testCraft.autoCraftLevelling3(
+                craft.CraftingBot(
                     event, 
-                    MaterialPos,
-                    craftTablePos,
+                    craftMaterial,
+                    craftTablePos1,
+                    craftTablePos2,
                     AmountBtnPos,
                     990,
                     craftBeginBtnPos,
                     successBtnPos,
-                    getItemPos,
+                    inventoryPos,
                     confirmBtnPos,
                     tradeBtnPos,
                     materialBtnPos,
-                    totalItemsToCraft,
-                    arr
+                    equipBtnPos,
+                    TotalItemsToCraft,
 
                 )
             })
