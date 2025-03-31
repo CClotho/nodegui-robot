@@ -1,6 +1,6 @@
 const robot = require('robotjs')
 const MODE = {CRAFTING_MODE: false, SELLING_MODE: false, REFILLING_MODE: false}
-
+robot.setMouseDelay(100)
 let startCraft;
 let currentCraftedItems = 0;
 let totalCraftedItems = 0;
@@ -35,6 +35,8 @@ function CraftingBot(
     TotalItemsToCraft
 )  {
     let startCrafting = false;
+    let itemPosX = ItemPos.x;
+    let itemPosY = ItemPos.y;
 
      let materialPos = {x: craftMaterialPos.x, y: craftMaterialPos.y}
     if(event.name === "3" || event.vKey === 51 && event.state === "DOWN") {
@@ -217,8 +219,9 @@ function CraftingBot(
                 
                     // Simulate selling items
                     for (let i = 0; i < 30; i++) {
-                        robot.moveMouse(ItemPos.x, ItemPos.y);
+                        robot.moveMouse(ItemPosX, ItemPosY);
                         robot.mouseToggle("down", "right");
+                        robout.mouseToggle("up", "right");
                         if(i > 0 && i % 6 === 0) {
                             itemPosX = ItemPos.x;
                             itemPosY += 45;
