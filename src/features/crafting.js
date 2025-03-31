@@ -219,7 +219,7 @@ function CraftingBot(
                 
                     // Simulate selling items
                     for (let i = 0; i < 30; i++) {
-                        robot.moveMouse(ItemPosX, ItemPosY);
+                        robot.moveMouse(itemPosX, itemPosY);
                         robot.mouseToggle("down", "right");
                         robout.mouseToggle("up", "right");
                         if(i > 0 && i % 6 === 0) {
