@@ -165,6 +165,8 @@ function CraftingBot(
                     MODE.SELLING_MODE = true;
                     MODE.CRAFTING_MODE = false;
                     console.log("Switching to selling mode...");
+                    robot.moveMouse(equipBtnPos.x, equipBtnPos.y);
+                    robot.mouseClick();
                 }
 
                 if (totalCraftedItems === 99) {
@@ -213,31 +215,46 @@ function CraftingBot(
             } */
 
                 if (MODE.SELLING_MODE) {
-                    console.log("Switching to selling mode...");
-                    robot.moveMouse(equipBtnPos.x, equipBtnPos.y);
-                    robot.mouseClick();
-                
-                    // Simulate selling items
-                    for (let i = 0; i < 30; i++) {
+                    
+
+                    if(currentCraftedItems <=31) {
+                    
+
+                        if (soldItems > 0 && soldItems % 6 === 0) {
+                            itemPosX = ItemPos.x;
+                            itemPosY += 45;
+                            
+                            soldItems++;
+                            console.log(`Sold items: ${soldItems}`);
+                        }
+
+                        if (soldItems > 0 && soldItems % 10 === 0 ) {
+                            robot.moveMouse(ConfirmBtnPos.x, ConfirmBtnPos.y);
+                            robot.mouseClick();
+                            robot.moveMouse(TradeBtnPos.x, TradeBtnPos.y);
+                            robot.mouseClick();
+                        }
+
+                        if (soldItems >= 30 && soldItems % 30 === 0) {
+                            currentCraftedItems = 0;
+                            soldItems = 0;
+                            MODE.SELLING_MODE = false;
+                            MODE.CRAFTING_MODE = true;
+                            console.log("Selling complete. Resuming crafting...");
+
+                        }
+                    
                         robot.moveMouse(itemPosX, itemPosY);
                         robot.mouseToggle("down", "right");
                         robot.mouseToggle("up", "right");
-                        if(i > 0 && i % 6 === 0) {
-                            itemPosX = ItemPos.x;
-                            itemPosY += 45;
-                        }
-                        robot.moveMouse(ConfirmBtnPos.x, ConfirmBtnPos.y);
-                        robot.mouseClick();
-                        robot.moveMouse(TradeBtnPos.x, TradeBtnPos.y);
-                        robot.mouseClick();
-                    }
-                
-                    // Reset counters and mode
-                    currentCraftedItems = 0;
-                    soldItems = 0;
-                    MODE.SELLING_MODE = false;
-                    MODE.CRAFTING_MODE = true;
-                    console.log("Selling complete. Resuming crafting...");
+
+                        soldItems++;
+                        console.log(`Sold items: ${soldItems}`);
+                        itemPosX += 45;
+
+                       
+                        
+                    } 
                 }
          
            
