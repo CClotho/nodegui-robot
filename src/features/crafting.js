@@ -221,7 +221,7 @@ function CraftingBot(
                     for (let i = 0; i < 30; i++) {
                         robot.moveMouse(itemPosX, itemPosY);
                         robot.mouseToggle("down", "right");
-                        robout.mouseToggle("up", "right");
+                        robot.mouseToggle("up", "right");
                         if(i > 0 && i % 6 === 0) {
                             itemPosX = ItemPos.x;
                             itemPosY += 45;
