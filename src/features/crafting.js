@@ -253,6 +253,7 @@ function CraftingBot(
                     currentCraftedItems = 0
                     totalCraftedItems = 0;   
                     MODE.REFILLING_MODE = false
+                    MODE.CRAFTING_MODE = true;
                     console.log("Switching to crafting mode...")
     
                     
