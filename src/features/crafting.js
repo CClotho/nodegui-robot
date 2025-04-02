@@ -101,7 +101,7 @@ function CraftingBot(
             }
             
 
-            if(totalCraftedItems < TotalItemsToCraft) {
+            if(TotalItemsToCraft < 999) {
       
                 if(MODE.CRAFTING_MODE) {
                     //delayUsingPerformanceNow(2250)
@@ -132,7 +132,8 @@ function CraftingBot(
                     delayUsingPerformanceNow(500)
                     ++totalCraftedItems
                     ++currentCraftedItems
-                    console.log(`Current crafted items and total crafted items: ${currentCraftedItems} ${totalCraftedItems}`)
+                    --TotalItemsToCraft
+                    console.log(`Current crafted items : ${currentCraftedItems}, Total Crafted Items: ${totalCraftedItems}, and Total Items To Craft: ${TotalItemsToCraft}`)
                 }
                 else if (MODE.SELLING_MODE) {
 
@@ -159,15 +160,15 @@ function CraftingBot(
                         soldItems = 0;
                         itemPosX = ItemPos.x;
                         itemPosY = ItemPos.y;
-                        MODE.SELLING_MODE = false;
-                        MODE.CRAFTING_MODE = true;
                         console.log("Selling complete. Resuming crafting...");
                         robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y);
                         robot.mouseClick();
+                        MODE.SELLING_MODE = false;
+                        MODE.CRAFTING_MODE = true;
                         
                     }
                                    
-                    robot.setMouseDelay(0.1)
+                    //robot.setMouseDelay(0.1)
                     robot.moveMouse(getItemPosX(), getItemPosY());
                     robot.mouseToggle("down", "right");
                     robot.mouseToggle("up", "right");
@@ -198,6 +199,16 @@ function CraftingBot(
                         totalCurrentMatIndex = currentMatIndex
                         currentMatIndex = 0
                     }
+
+                    if(currentMatIndex > 0 && currentMatIndex % 9 === 0  ) { 
+                        
+                        // ANIMAL TAIL FUR THEN NEXT IS 9x of WOOD
+                        // EVERY 9th iteration add ANIMAL TAIL FUR
+                        // FIX TOMORROW
+                    
+                        totalCurrentMatIndex = currentMatIndex
+                        currentMatIndex = 0
+                    }
     
                     if(totalCurrentMatIndex == 30 ) { 
                         
@@ -206,7 +217,8 @@ function CraftingBot(
                     }
     
     
-    
+                    materialPos.x +=45
+
                     robot.moveMouse(MaterialBtnPos.x, MaterialBtnPos.y)
                     robot.mouseClick();
                     //Additng the first material
@@ -215,7 +227,8 @@ function CraftingBot(
                     robot.moveMouse(craftingTablePos.x, craftingTablePos.y)
                     robot.mouseToggle("up", "left")
                     robot.typeString(quantity) // "999"
-                    materialPos.x +=45
+                    
+                    
                     // Adding the second material
                     robot.moveMouse(materialPos.x, materialPos.y)
                     robot.mouseToggle("down", "left")
@@ -227,25 +240,15 @@ function CraftingBot(
                     robot.mouseClick();
                     robot.keyTap("enter")
                     robot.mouseClick()
-                   
+                  
+                     
                     
-                    robot.mouseClick()
-                
-                    if(totalCraftedItems == 99) {
-                        totalCraftedItems = 0;
-                    }
     
                     // move the position of the 2 materials from the inventory +45px
                    
                     currentMatIndex++;
                     currentCraftedItems = 0
-                    if(MODE.CRAFTING_MODE) {
-                        console.log("Already in crafting mode...")
-                    }
-                    else {
-                        MODE.CRAFTING_MODE = true
-                    }
-                    
+                    totalCraftedItems = 0;   
                     MODE.REFILLING_MODE = false
                     console.log("Switching to crafting mode...")
     
