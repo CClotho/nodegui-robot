@@ -55,7 +55,7 @@ function CraftingBot(
         let soldItems = 0;
 
         let startCraft;
-        let currentCraftedItems = 99; // FOR DEBUG SO I MADE IT 29
+        let currentCraftedItems = 0; // FOR DEBUG SO I MADE IT 29
         let totalCraftedItems = 0;
 
         let totalCurrentMatIndex = 0;
@@ -105,7 +105,7 @@ function CraftingBot(
       
                 if(MODE.CRAFTING_MODE) {
                     //delayUsingPerformanceNow(2250)
-                delayUsingPerformanceNow(50)
+         
                 robot.keyTap("enter")
                 robot.moveMouse(SuccessBtnPos.x, SuccessBtnPos.y)
                 robot.mouseClick()
@@ -129,8 +129,9 @@ function CraftingBot(
                     return
 
                 }
-                    totalCraftedItems++
-                    currentCraftedItems++
+                    delayUsingPerformanceNow(500)
+                    ++totalCraftedItems
+                    ++currentCraftedItems
                     console.log(`Current crafted items and total crafted items: ${currentCraftedItems} ${totalCraftedItems}`)
                 }
                 else if (MODE.SELLING_MODE) {
@@ -168,10 +169,9 @@ function CraftingBot(
                                    
                     robot.setMouseDelay(0.1)
                     robot.moveMouse(getItemPosX(), getItemPosY());
-                    robot.mouseToggle("down", "left");
-                    robot.moveMouse(getSellTab.x, getSellTab.y);
-                    robot.mouseToggle("up", "left");
-                    delayUsingPerformanceNow(500);
+                    robot.mouseToggle("down", "right");
+                    robot.mouseToggle("up", "right");
+                   
                            
                     ++soldItems;
                     itemPosX += 45; 
