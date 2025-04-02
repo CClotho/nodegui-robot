@@ -49,7 +49,7 @@ function CraftingBot(
     }
 
     // let materialPos = {x: craftMaterialPos.x, y: craftMaterialPos.y}
-    if(event.name === "3" || event.vKey === 51 && event.state === "DOWN") {
+    if(event.name === "3" && event.state === "DOWN") {
         let materialPos = {x: craftMaterialPos.x, y: craftMaterialPos.y}
         startCrafting = !startCrafting
         let soldItems = 0;
@@ -118,7 +118,7 @@ function CraftingBot(
                     console.log("Switching to selling mode...");
                     robot.moveMouse(equipBtnPos.x, equipBtnPos.y);
                     robot.mouseClick();
-                    return
+                    
                     
                 }
 
@@ -126,11 +126,14 @@ function CraftingBot(
                     MODE.REFILLING_MODE = true;
                     MODE.CRAFTING_MODE = false;
                     console.log("Switching to refilling mode...");
-                    return
+                    
 
                 }
-                    delayUsingPerformanceNow(500)
-                    ++totalCraftedItems
+                    delayUsingPerformanceNow(1250)
+                    if(totalCraftedItems < 99) {
+                        ++totalCraftedItems
+                    }
+                 
                     ++currentCraftedItems
                     --TotalItemsToCraft
                     console.log(`Current crafted items : ${currentCraftedItems}, Total Crafted Items: ${totalCraftedItems}, and Total Items To Craft: ${TotalItemsToCraft}`)
