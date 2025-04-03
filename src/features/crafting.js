@@ -276,7 +276,12 @@ function CraftingBot(
                     robot.mouseToggle("up", "left")
                     robot.typeString(quantity) // "999"
                     robot.keyTap('enter')
-                    
+                    robot.moveMouse(equipBtnPos.x, equipBtnPos.y)
+                    robot.mouseClick();
+                    robot.moveMouse(BeginBtnPos.x, BeginBtnPos.y)
+                    robot.mouseClick();
+                    robot.keyTap("enter")
+                    robot.mouseClick()
     
                   
                      
